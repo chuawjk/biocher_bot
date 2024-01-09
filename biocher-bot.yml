@@ -1,0 +1,16 @@
+name: biocher-bot
+channels:
+    - defaults
+dependencies:
+  - python=3.10
+  - pip==23.3.1
+  - pip:
+    - faiss-cpu==1.7.4
+    - hydra-core==1.3.2
+    - langchain=0.1.4
+    - langchainhub==0.1.14
+    - openai==1.6.1
+    - pypdf==3.17.4
+    - python-dotenv==1.0.0
+    - python-telegram-bot==20.7
+    - tiktoken==0.5.2
