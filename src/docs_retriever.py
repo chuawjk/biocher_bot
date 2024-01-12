@@ -57,23 +57,22 @@ class DocsRetriever:
         log.info("Preparing chain...")
         inputs = RunnableParallel(
             standalone_question=RunnablePassthrough.assign(
-                chat_history=lambda x: get_buffer_string(x["chat_history"])
+                chat_history=lambda x: get_buffer_string(x["chat_history"]),
             )
             | self.summary_prompt
             | self.summary_llm
             | StrOutputParser(),
+            image_desc=lambda x: x["image_desc"],
         )
         context = {
             "context": itemgetter("standalone_question")
             | self.retriever
             | self.combine_documents,
             "question": lambda x: x["standalone_question"],
+            "image_desc": itemgetter("image_desc"),
         }
         self.chat_rag_chain = (
-            inputs
-            | context
-            | self.question_prompt
-            | self.question_llm
+            inputs | context | self.question_prompt | self.question_llm
         )
 
     def combine_documents(self, docs, document_separator="\n\n"):
@@ -107,10 +106,8 @@ def run(cfg: DictConfig, vector_store):
     chat_history = []
     while True:
         question = input("Enter question: ")
-        answer = (
-            retriever.chat_rag_chain.invoke(
-                {"question": question, "chat_history": chat_history}
-            )
+        answer = retriever.chat_rag_chain.invoke(
+            {"question": question, "chat_history": chat_history}
         )
         print(answer.content)
 

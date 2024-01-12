@@ -37,7 +37,7 @@ python -m src.vector_store
 
 
 ## Starting Biocher Bot
-Finally, start Telegram bot by running:
+Finally, start the Telegram bot by running:
 ```bash
 python -m src.bot
 ```

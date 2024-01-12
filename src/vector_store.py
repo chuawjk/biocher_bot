@@ -15,33 +15,26 @@ log = logging.getLogger(__name__)
 class VectorStore:
     def __init__(
         self,
-        vector_store_dir: str,
-        pdf_dir: str,
-        chunk_size: int,
-        chunk_overlap: int,
+        cfg: DictConfig,
         embedding_model,
     ):
         """
         Initialise VectorStore class by preparing configs.
 
         Args:
-            vector_store_dir (str): Path to existing vector store or where to save 
-                new one.
-            pdf_dir (str): Path to directory containing PDFs.
-            chunk_size (int): Number of characters per chunk after splitting PDF.
-            chunk_overlap (int): Number of characters to overlap between chunks.
-            embedding_model (langchain_community.embeddings): Model to convert 
+            cfg (DictConfig): VectorStore configurations.
+            embedding_model (langchain_community.embeddings): Model to convert
                 chunks into vectors.
 
         Returns:
             None
         """
-        self.vector_store_dir = vector_store_dir
-        self.chunk_size = chunk_size
-        self.chunk_overlap = chunk_overlap
+        self.vector_store_dir = cfg.vector_store_dir
+        self.chunk_size = cfg.chunk_size
+        self.chunk_overlap = cfg.chunk_overlap
         self.embedding_model = embedding_model
 
-        self.pdf_dir = pdf_dir
+        self.pdf_dir = cfg.pdf_dir
         self.pdf_paths = list(Path(self.pdf_dir).glob("*.pdf")) + list(
             Path(self.pdf_dir).glob("*.PDF")
         )

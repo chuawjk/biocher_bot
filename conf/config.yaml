@@ -1,0 +1,27 @@
+hydra:
+  job:
+    chdir: False
+  verbose: False
+
+credentials:
+  dotenv_path: ".env"
+
+vector_store:
+  vector_store_dir: "./index/"
+  pdf_dir: "./data/"
+  chunk_size: 768
+  chunk_overlap: 128
+
+image_describer:
+  model_name: "gpt-4-vision-preview"
+  max_tokens: 1024
+  
+docs_retriever:
+  search_type: "similarity_score_threshold" # "similarity", "similarity_score_threshold", or "mmr"
+  num_to_retrieve: 3
+  score_threshold: 0.6
+  lambda_mult: 0.6
+  model_name: "gpt-4"
+  summary_template_path: "./prompts/summary.txt"
+  question_template_path: "./prompts/question.txt"
+  chain_type: "stuff" # "stuff", "map_reduce", or "refine"
